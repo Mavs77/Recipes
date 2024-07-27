@@ -20,13 +20,20 @@ connectDB()
 require('./config/passport')(passport)
 
 
-
+// use EJS for views 
 app.set('view engine', 'ejs')
+
+//static folder 
 app.use(express.static('public'))
+
+//body parsing 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+//logging 
 app.use(logger('dev'))
 
+// Setup sessions - stored in MongoDB
 app.use(
     session({
         secret: 'keyboard cat', 
@@ -38,13 +45,17 @@ app.use(
     })
 )
 
+
+// Passport middleware 
 app.use(passport.initialize())
 app.use(passport.session())
+
+//Use flas messages for errors, info, etc...
 app.use(flash())
 
 
-app.use('/', homeRoutes)
-app.use('/todos', todoRoutes)
+app.use('/', mainRoutes)
+app.use('/post', postRoutes)
  
 app.listen(process.env.PORT || 2930, ()=>{
     console.log('Server is running, you better catch it!')
