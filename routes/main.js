@@ -18,4 +18,3 @@ router.post('/signup', authController.postSignup);
 module.exports = router
 
 
-//NEED TO SET UP THE AUTH JS!!!
