@@ -11,6 +11,7 @@ const logger = require('morgan')
 const connectDB = require('./config/database')
 const mainRoutes = require('./routes/main')
 const postRoutes = require('./routes/posts')
+const commentRoutes = require('./routes/comments')
 
 const DB_STRING = process.env.DB_STRING
 
