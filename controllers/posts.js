@@ -6,31 +6,37 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user });
+      res.render("profile.ejs", { posts, user: req.user });
     } catch (err) {
       console.log(err);
+      res.status(500).send("Server Error");
     }
   },
+
   getFeed: async (req, res) => {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
+      res.render("feed.ejs", { posts });
     } catch (err) {
       console.log(err);
+      res.status(500).send("Server Error");
     }
   },
+
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
-      const comments = await Comment.find({post:req.params.id}).sort({ createdAt: "desc" }).lean();
-      res.render("post.ejs", { post: post, user: req.user, comments: comments});
+      const comments = await Comment.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
+      res.render("post.ejs", { post, user: req.user, comments });
     } catch (err) {
       console.log(err);
+      res.status(500).send("Server Error");
     }
   },
+
   createPost: async (req, res) => {
     try {
-      // Upload image to cloudinary
+      // Upload image to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
       await Post.create({
@@ -45,12 +51,14 @@ module.exports = {
       res.redirect("/profile");
     } catch (err) {
       console.log(err);
+      res.status(500).send("Server Error");
     }
   },
+
   likePost: async (req, res) => {
     try {
-      await Post.findOneAndUpdate(
-        { _id: req.params.id },
+      await Post.findByIdAndUpdate(
+        req.params.id,
         {
           $inc: { likes: 1 },
         }
@@ -59,20 +67,25 @@ module.exports = {
       res.redirect(`/post/${req.params.id}`);
     } catch (err) {
       console.log(err);
+      res.status(500).send("Server Error");
     }
   },
+
   deletePost: async (req, res) => {
     try {
       // Find post by id
-      let post = await Post.findById({ _id: req.params.id });
-      // Delete image from cloudinary
+      const post = await Post.findById(req.params.id);
+
+      // Delete image from Cloudinary
       await cloudinary.uploader.destroy(post.cloudinaryId);
+
       // Delete post from db
       await Post.deleteOne({ _id: req.params.id });
       console.log("Deleted Post");
       res.redirect("/profile");
     } catch (err) {
-      res.redirect("/profile");
+      console.log(err);
+      res.status(500).send("Server Error");
     }
   },
 };
