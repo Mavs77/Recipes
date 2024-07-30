@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/auth');  
 const homeController = require('../controllers/home'); 
 const postsController = require('../controllers/posts'); 
+//ensure that a user is authenticated (i.e., logged in) before accessing a route. 
 const { ensureAuth, ensureGuest } = require('../middleware/auth'); 
 
 
