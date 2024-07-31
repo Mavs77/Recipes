@@ -58,7 +58,7 @@ module.exports = {
   likePost: async (req, res) => {
     try {
       await Post.findByIdAndUpdate(
-        req.params.id,
+        {_id: req.params.id},
         {
           $inc: { likes: 1 },
         }
