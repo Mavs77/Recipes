@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const session = require('express-session') //manage user sessions in an express.js application 
 const MongoStore = require('connect-mongo') //store session data in a mongoDB database
+const methodOverride = require('method-override')
 const flash = require('express-flash')
 const logger = require('morgan')
 const connectDB = require('./config/database')
@@ -33,6 +34,9 @@ app.use(express.json())
 
 //logging 
 app.use(logger('dev'))
+
+//use forms for put / delete 
+app.use(methodOverride("_method")); 
 
 // Setup sessions - stored in MongoDB
 app.use(
