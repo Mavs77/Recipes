@@ -5,7 +5,7 @@ const User = require('../models/User')
 //renders the login page if the user is not already authenticated. If the user is authenticated, they are redirected to the '/todos' page. 
 exports.getLogin = (req, res) => {
     if (req.user) {
-      return res.redirect('/todos')
+      return res.redirect('/profile')
     }
     res.render('login', {
       title: 'Login'

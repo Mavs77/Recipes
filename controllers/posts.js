@@ -54,14 +54,11 @@ module.exports = {
       res.status(500).send("Server Error");
     }
   },
-
   likePost: async (req, res) => {
     try {
       await Post.findByIdAndUpdate(
-        {_id: req.params.id},
-        {
-          $inc: { likes: 1 },
-        }
+        req.params.id,
+        { $inc: { likes: 1 } }
       );
       console.log("Likes +1");
       res.redirect(`/post/${req.params.id}`);
@@ -70,7 +67,6 @@ module.exports = {
       res.status(500).send("Server Error");
     }
   },
-
   deletePost: async (req, res) => {
     try {
       // Find post by id
