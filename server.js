@@ -1,4 +1,6 @@
-require('dotenv').config({path: './config/.env'}); //Ensure this is at the top. ENsures that environment variables are loaded and available for use throughout your application. This ensures that all parts of your application have access to the necessary configuration values from the .env file.
+//Ensure this is at the top. ENsures that environment variables are loaded and available for use throughout your application. This ensures that all parts of your application have access to the necessary configuration values from the .env file.
+
+require('dotenv').config({path: './config/.env'}); 
 
 const express = require('express')
 const app = express()
@@ -58,11 +60,11 @@ app.use(passport.session())
 //Use flas messages for errors, info, etc...
 app.use(flash())
 
-
+//setup routes for which the server is listening 
 app.use('/', mainRoutes)
 app.use('/post', postRoutes)
 app.use('/comment', commentRoutes)
  
 app.listen(process.env.PORT || 1993, ()=>{
-    console.log('Server is running, you better catch it!')
+    console.log('Server is running, game on!')
 })    

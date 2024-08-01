@@ -6,12 +6,12 @@
       <img class="img-fluid" src="<%= post.image %>" alt="<%= post.title %>"/>
       <div class="row justify-content-between">
         <!-- Like Button -->
-        <form class="col-1" action="/post/likePost/<%= post.id %>?_method=PUT" method="POST">
+        <form class="col-1" action="/post/likePost/<%= post._id %>?_method=PUT" method="POST">
           <button class="btn btn-primary fa fa-heart" type="submit" aria-label="Like"></button>
         </form>
         <h3 class="col-3">Likes: <%= post.likes %></h3>
         <!-- Delete Button (Visible only to the post author) -->
-        <% if (post.user == user._id) { %>
+        <% if (post.user.toString() === user._id.toString()) { %>
         <form action="/post/deletePost/<%= post._id %>?_method=DELETE" method="POST" class="col-3">
           <button class="btn btn-primary fa fa-trash" type="submit" aria-label="Delete"></button>
         </form>
@@ -42,6 +42,5 @@
     </div>
   </div>
 </div>
-
 <%- include('partials/footer') -%>
 
