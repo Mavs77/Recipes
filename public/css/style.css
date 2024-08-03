@@ -1,0 +1,10 @@
+img {
+    border: 2px solid transparent;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
+    transition: box-shadow 0.3s ease-in-out; 
+  }
+  
+  img:hover {
+    box-shadow: 0 0 20px rgb(30, 0, 255); /* More intense glow on hover */
+  }
+  
