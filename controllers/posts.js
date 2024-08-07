@@ -39,6 +39,7 @@ module.exports = {
       // Upload image to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
+      // we are consolidating data from many different sources (cloudinary, mongo, form, passport) and uploading it tour database. 
       await Post.create({
         title: req.body.title,
         image: result.secure_url,
@@ -51,6 +52,7 @@ module.exports = {
       res.redirect("/profile");
     } catch (err) {
       console.log(err);
+      console.log('make sure all fields in your post entry are filled. Images included. No Exceptions!!!!')
       res.status(500).send("Server Error");
     }
   },

@@ -7,4 +7,12 @@ img {
   img:hover {
     box-shadow: 0 0 20px rgb(30, 0, 255); /* More intense glow on hover */
   }
-  
+
+.btn-primary  {
+  margin-bottom: 30px;
+}
+
+.mt-5 > p {
+  font-size: 6rem;
+  font-weight: bolder;
+}

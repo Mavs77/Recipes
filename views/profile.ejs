@@ -3,27 +3,37 @@
   <div class="row mt-5">
       <div class="col-6">
           <div>
+            <!-- user name -->
               <p><strong>User Name</strong>: <%= user.userName %></p>
+              <!-- email -->
               <p><strong>Email</strong>: <%= user.email %></p>
+              <!-- logout -->
               <a href="/logout" class="col-3 btn btn-primary">Logout</a>
           </div>
           <div class="mt-5">
+            <!-- Add a post -->
             <h2>Add a post</h2>
+            <!-- Form start -->
             <form action="/post/createPost" enctype="multipart/form-data" method="POST">
+              <!-- title section of form -->
               <div class="mb-3">
                   <label for="title" class="form-label">Title</label>
                   <input type="text" class="form-control" id="title" name="title">
               </div>
+              <!-- caption section of form -->
               <div class="mb-3">
                 <label for="caption" class="form-label">Caption</label>
                 <textarea class="form-control" id="caption" name="caption"></textarea>
               </div>
+              <!-- image upload section -->
               <div class="mb-3">
                 <label for="imgUpload" class="form-label">Image</label>
+                <!-- This creates an input field of type 'file', allowing the user to upload a file. The destination wher the upload is sent is determined by the 'action' attribute of the '<form>' tag that contains the '<input>' element. In this instance, the acton attribute points to the '/post/creatPost' route. Follow the server entry point. -->
                 <input type="file" class="form-control" id="imageUpload" name="file">
               </div>
               <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
             </form>
+            <!-- Form End -->
           </div>
       </div>
       <div class="col-6">
