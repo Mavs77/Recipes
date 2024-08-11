@@ -82,14 +82,22 @@ module.exports = {
    // Method to render the edit form for a comment
    editComment: async (req, res) => {
     try {
-      const comment = await Comment.findById(req.params.id);
-      if (!comment) {
-        return res.status(404).send("Comment not found");
-      }
-      res.render("editComment", { comment });
+      // Extract comment ID from request parameters
+      const commentId = req.params.id;
+
+      // Extract new comment text and postId from request body
+      const { comment, postId } = req.body;
+
+      // Update the comment in the database
+      await Comment.findByIdAndUpdate(commentId, { comment });
+
+      console.log("Comment has been edited!");
+
+      // Redirect to the post page where the comment was made
+      res.redirect(`/post/${postId}`);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Server Error");
+      res.status(500).send("Failed to edit comment.");
     }
   },
 };

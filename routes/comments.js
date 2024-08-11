@@ -8,7 +8,7 @@ router.post("/createComment/:id", commentsController.createComment);
 
 router.delete("/deleteComment/:id", commentsController.deleteComment);
 
-router.get("/editComment/:id", ensureAuth, commentsController.editComment); 
+router.put("/editComment/:id", commentsController.editComment); 
 
 
 module.exports = router;

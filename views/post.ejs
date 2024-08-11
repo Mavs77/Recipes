@@ -44,7 +44,7 @@
             <button class="btn btn-danger fa fa-trash" type="submit" aria-label="Delete"></button>
           </form>
           <!-- Inline Edit Form -->
-          <form id="edit-form-<%= comment._id %>" action="/comment/updateComment/<%= comment._id %>?_method=PUT" method="POST" style="display: none; width: 100%;">
+          <form id="edit-form-<%= comment._id %>" action="/comment/editComment/<%= comment._id %>?_method=PUT" method="POST" style="display: none; width: 100%;">
             <input type="text" class="form-control" name="comment" value="<%= comment.comment %>" required>
             <input type="hidden" name="postId" value="<%= post._id %>">
             <button type="submit" class="btn btn-primary">Update</button>
