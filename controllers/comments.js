@@ -78,7 +78,32 @@ module.exports = {
       console.log(err); // Log any errors that occur during the comment deletion process
       res.status(500).send("Server Error"); // Send a 500 status response if there is a server error
     }
-  }
+  }, 
+   // Method to render the edit form for a comment
+   editComment: async (req, res) => {
+    try {
+      const comment = await Comment.findById(req.params.id);
+      if (!comment) {
+        return res.status(404).send("Comment not found");
+      }
+      res.render("editComment", { comment });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error");
+    }
+  },
+
+  // Method to handle the update of a comment
+  updateComment: async (req, res) => {
+    try {
+      await Comment.findByIdAndUpdate(req.params.id, { comment: req.body.comment });
+      console.log("Comment has been updated!");
+      res.redirect(`/post/${req.body.postId}`); // Redirect back to the post after updating
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Failed to update comment.");
+    }
+  },
 };
 
 
