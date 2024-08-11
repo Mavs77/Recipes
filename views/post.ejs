@@ -36,15 +36,20 @@
       <ul class="list-group">
         <% comments.forEach(comment => { %>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><%= comment.comment %></span>
-          <div class="btn-group">
-            <!-- Edit Button for Each Comment -->
-            <a href="/comment/editComment/<%= comment._id %>" class="btn btn-secondary fa fa-edit" aria-label="Edit"></a>
-            <!-- Delete Button for Each Comment -->
-            <form action="/comment/deleteComment/<%= comment._id %>?_method=DELETE" method="POST">
-              <button class="btn btn-danger fa fa-trash" type="submit" aria-label="Delete"></button>
-            </form>
-          </div>
+          <span id="comment-text-<%= comment._id %>"><%= comment.comment %></span>
+          <!-- Edit Button for Each Comment -->
+          <button class="btn btn-secondary fa fa-edit" aria-label="Edit" onclick="toggleEditForm('<%= comment._id %>')"></button>
+          <!-- Delete Button for Each Comment -->
+          <form action="/comment/deleteComment/<%= comment._id %>?_method=DELETE" method="POST" style="display: inline;">
+            <button class="btn btn-danger fa fa-trash" type="submit" aria-label="Delete"></button>
+          </form>
+          <!-- Inline Edit Form -->
+          <form id="edit-form-<%= comment._id %>" action="/comment/updateComment/<%= comment._id %>?_method=PUT" method="POST" style="display: none; width: 100%;">
+            <input type="text" class="form-control" name="comment" value="<%= comment.comment %>" required>
+            <input type="hidden" name="postId" value="<%= post._id %>">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleEditForm('<%= comment._id %>')">Cancel</button>
+          </form>
         </li>
         <% }); %>
       </ul>
@@ -56,5 +61,22 @@
   </div>
 </div>
 <%- include('partials/footer') -%>
+
+<script>
+  function toggleEditForm(commentId) {
+    const commentText = document.getElementById(`comment-text-${commentId}`);
+    const editForm = document.getElementById(`edit-form-${commentId}`);
+    
+    if (editForm.style.display === 'none' || editForm.style.display === '') {
+      commentText.style.display = 'none';
+      editForm.style.display = 'block';
+    } else {
+      commentText.style.display = 'block';
+      editForm.style.display = 'none';
+    }
+  }
+</script>
+
+
 
 

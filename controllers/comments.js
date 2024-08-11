@@ -92,18 +92,6 @@ module.exports = {
       res.status(500).send("Server Error");
     }
   },
-
-  // Method to handle the update of a comment
-  updateComment: async (req, res) => {
-    try {
-      await Comment.findByIdAndUpdate(req.params.id, { comment: req.body.comment });
-      console.log("Comment has been updated!");
-      res.redirect(`/post/${req.body.postId}`); // Redirect back to the post after updating
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Failed to update comment.");
-    }
-  },
 };
 
 
