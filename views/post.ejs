@@ -31,13 +31,14 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
+    <h2>Comments</h2>
     <div class="col-12 mt-5">
       <ul class="list-group">
         <% comments.forEach(comment => { %>
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span><%= comment.comment %></span>
           <!-- Delete Button for Each Comment -->
-          <form action="/post/deleteComment/<%= comment._id %>?_method=DELETE" method="POST">
+          <form action="/comment/deleteComment/<%= comment._id %>?_method=DELETE" method="POST">
             <button class="btn btn-danger fa fa-trash" type="submit" aria-label="Delete"></button>
           </form>
         </li>
