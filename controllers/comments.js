@@ -15,6 +15,19 @@ module.exports = {
       res.status(500).send("Failed to create comment.");
     }
   },
+  deleteComment: async (req, res) => {
+    try {
+      // Find post by id
+      const post = await Comment.findById(req.params.id);
+      // Delete comment from db
+      await Comment.deleteOne({ _id: req.params.id });
+      console.log("Deleted Comment");
+      res.redirect("/profile");
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error");
+    }
+  }
 };
 
 
