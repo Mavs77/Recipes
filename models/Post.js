@@ -31,4 +31,5 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
+//MongoDB collection named here - will give lowercase plural of name. You can add a third argument in the model method if you don't like the default named convention. 
 module.exports = mongoose.model("Post", PostSchema);

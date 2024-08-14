@@ -15,7 +15,11 @@ module.exports = {
 
   getFeed: async (req, res) => {
     try {
+      //since we have a session, each request contains the logged in user's info: req.user
+      //grabbing just the posts of the logged in user
+      //console.log(req.user) to see everything 
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
+      //sendig post data from mongodb and user data to ejs emplate 
       res.render("feed.ejs", { posts });
     } catch (err) {
       console.log(err);
@@ -25,6 +29,8 @@ module.exports = {
 
   getPost: async (req, res) => {
     try {
+      //id parameter comes from the post routes
+      //router.get("/:id", ensureAuth, postsController.getPost); 
       const post = await Post.findById(req.params.id);
       const comments = await Comment.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
       res.render("post.ejs", { post, user: req.user, comments });
@@ -34,6 +40,7 @@ module.exports = {
     }
   },
 
+  //media is stored in cloudinary - the above request responds w/ URL to media and media id that we will need when deleting content 
   createPost: async (req, res) => {
     try {
       // Upload image to Cloudinary

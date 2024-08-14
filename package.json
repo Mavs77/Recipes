@@ -8,7 +8,7 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "starter template for future projects",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.3.1",

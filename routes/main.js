@@ -6,10 +6,13 @@ const postsController = require('../controllers/posts');
 const { ensureAuth, ensureGuest } = require('../middleware/auth'); 
 
 
-//main routes - simplified for now
+//Main Routes 
 router.get('/', homeController.getIndex); 
 router.get('/profile', ensureAuth, postsController.getProfile);
-router.get('/feed', ensureAuth, postsController.getFeed);  
+
+router.get('/feed', ensureAuth, postsController.getFeed); //specific to this social media app. Can Yeeeet with other apps. 
+
+//Routes for user login/signup
 router.get('/login', authController.getLogin); 
 router.post('/login', authController.postLogin); 
 router.get('/logout', authController.logout); 
