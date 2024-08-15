@@ -11,24 +11,28 @@
               <a href="/logout" class="col-3 btn btn-primary">Logout</a>
           </div>
           <div class="mt-5">
-            <!-- Add a post -->
-            <h2>Add a post</h2>
+            <!-- Add a recipe -->
+            <h2>Add a recipe</h2>
             <!-- Form start -->
-            <form action="/post/createPost" enctype="multipart/form-data" method="POST">
+            <form action="/recipe/createRecipe" enctype="multipart/form-data" method="POST">
               <!-- title section of form -->
               <div class="mb-3">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="title" name="title">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" name="name">
               </div>
               <!-- caption section of form -->
               <div class="mb-3">
-                <label for="caption" class="form-label">Caption</label>
-                <textarea class="form-control" id="caption" name="caption"></textarea>
+                <label for="ingredients" class="form-label">Ingredients</label>
+                <textarea class="form-control" id="ingredients" name="ingredients"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="directions" class="form-label">Directions</label>
+                <textarea class="form-control" id="caption" name="directions"></textarea>
               </div>
               <!-- image upload section -->
               <div class="mb-3">
                 <label for="imgUpload" class="form-label">Image</label>
-                <!-- This creates an input field of type 'file', allowing the user to upload a file. The destination wher the upload is sent is determined by the 'action' attribute of the '<form>' tag that contains the '<input>' element. In this instance, the acton attribute points to the '/post/creatPost' route. Follow the server entry point. -->
+                <!-- This creates an input field of type 'file', allowing the user to upload a file. The destination wher the upload is sent is determined by the 'action' attribute of the '<form>' tag that contains the '<input>' element. In this instance, the acton attribute points to the '/recipe/creatPost' route. Follow the server entry point. -->
                 <input type="file" class="form-control" id="imageUpload" name="file">
               </div>
               <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
@@ -38,10 +42,15 @@
       </div>
       <div class="col-6">
         <ul class="row list-unstyled">
-        <% for(var i=0; i<posts.length; i++) {%>
+        <% for(var i=0; i<recipes.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
-            <a href="/post/<%= posts[i]._id%>">
-              <img class="img-fluid" src="<%= posts[i].image%>">
+            <a href="/recipe/<%= recipes[i]._id%>">
+              <h2><%= recipes[i].name%></h2>
+              <img class="img-fluid" src="<%= recipes[i].image%>">
+              <h2>Ingredients:</h2>
+              <p><%= recipes[i].ingredients%></p>
+              <h2>Directions:</h2>
+              <p><%= recipes[i].directions%></p>
             </a>
           </li>
         <% } %>

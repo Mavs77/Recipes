@@ -11,7 +11,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 router.get("/:id", ensureAuth, recipesController.getPost);
 
 //Enables user to create post w/ cloudinary for media uploads 
-router.post("/createPost", upload.single("file"), recipesController.createPost);
+router.post("/createRecipe", upload.single("file"), recipesController.createRecipe);
 
 //Enables user to like post. In controller, uses POST model to update data on MongoDB
 router.put("/likePost/:id", recipesController.likePost);

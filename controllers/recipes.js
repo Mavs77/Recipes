@@ -7,8 +7,12 @@ const Comment = require("../models/Comments");
 module.exports = {
   getProfile: async (req, res) => {
     try {
-      const posts = await Photos.find({ user: req.user.id });
-      res.render("profile.ejs", { posts, user: req.user });
+      //since we have a session each request (req) contains the logged-in user info: req.user 
+      //console.log(req.user) to see everything 
+      //Grabbing just the posts of the logged-in user
+      const recipes = await Recipe.find({ user: req.user.id });
+      //Sending data from mongodb and user data to ejs template
+      res.render("profile.ejs", { recipes, user: req.user });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error");
@@ -20,9 +24,9 @@ module.exports = {
       //since we have a session, each request contains the logged in user's info: req.user
       //grabbing just the posts of the logged in user
       //console.log(req.user) to see everything 
-      const posts = await Recipe.find().sort({ createdAt: "desc" }).lean();
+      const recipes = await Recipe.find().sort({ createdAt: "desc" }).lean();
       //sendig post data from mongodb and user data to ejs emplate 
-      res.render("feed.ejs", { posts });
+      res.render("feed.ejs", { recipes });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error");
@@ -33,9 +37,9 @@ module.exports = {
     try {
       //id parameter comes from the post routes
       //router.get("/:id", ensureAuth, postsController.getPost); 
-      const post = await Recipe.findById(req.params.id);
+      const recipes = await Recipe.findById(req.params.id);
       const comments = await Comment.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
-      res.render("post.ejs", { post, user: req.user, comments });
+      res.render("post.ejs", { recipes, user: req.user, comments });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error");
@@ -43,21 +47,22 @@ module.exports = {
   },
 
   //media is stored in cloudinary - the above request responds w/ URL to media and media id that we will need when deleting content 
-  createPost: async (req, res) => {
+  createRecipe: async (req, res) => {
     try {
       // Upload image to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
       // we are consolidating data from many different sources (cloudinary, mongo, form, passport) and uploading it tour database. 
       await Recipe.create({
-        title: req.body.title,
+        name: req.body.name,
         image: result.secure_url,
         cloudinaryId: result.public_id,
-        caption: req.body.caption,
+        ingredients: req.body.ingredients,
+        directions: req.body.directions,
         likes: 0,
         user: req.user.id,
       });
-      console.log("Post has been added!");
+      console.log("Recipe has been added!");
       res.redirect("/profile");
     } catch (err) {
       console.log(err);
@@ -72,7 +77,7 @@ module.exports = {
         { $inc: { likes: 1 } }
       );
       console.log("Likes +1");
-      res.redirect(`/post/${req.params.id}`);
+      res.redirect(`/recipe/${req.params.id}`);
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error");
@@ -88,7 +93,7 @@ module.exports = {
 
       // Delete post from db
       await Recipe.deleteOne({ _id: req.params.id });
-      console.log("Deleted Post");
+      console.log("Deleted Recipe");
       res.redirect("/profile");
     } catch (err) {
       console.log(err);
