@@ -13,7 +13,9 @@ const flash = require('express-flash')
 const logger = require('morgan')
 const connectDB = require('./config/database')
 const mainRoutes = require('./routes/main')
-const postRoutes = require('./routes/posts')
+const recipeRoutes = require('./routes/recipe')
+
+//ignore
 const commentRoutes = require('./routes/comments')
 
 const DB_STRING = process.env.DB_STRING
@@ -62,9 +64,13 @@ app.use(flash())
 
 //setup routes for which the server is listening 
 app.use('/', mainRoutes)
-app.use('/post', postRoutes)
+app.use('/recipe', recipeRoutes)
+
+//ignore
 app.use('/comment', commentRoutes)
  
 app.listen(process.env.PORT || 1993, ()=>{
     console.log('Server is running, game on!')
-})    
+})
+
+//test change 
