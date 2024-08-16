@@ -1,5 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Recipe = require("../models/Recipe");
+const Favorite = require("../models/Favorite");
+
 
 //ignore
 const Comment = require("../models/Comments");
@@ -12,13 +14,25 @@ module.exports = {
       //Grabbing just the posts of the logged-in user
       const recipes = await Recipe.find({ user: req.user.id });
       //Sending data from mongodb and user data to ejs template
-      res.render("profile.ejs", { recipes, user: req.user });
+      res.render("profile.ejs", { recipes, user: req.user }); 
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error");
     }
   },
-
+  getFavorites: async (req, res) => {
+    try {
+      //since we have a session each request (req) contains the logged-in user info: req.user 
+      //console.log(req.user) to see everything 
+      //Grabbing just the posts of the logged-in user
+      const recipes = await Favorite.find({ user: req.user.id }).populate('recipe');
+      //Sending data from mongodb and user data to ejs template
+      res.render("favorites.ejs", { recipes: recipes, user: req.user }); 
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error");
+    }
+  },
   getFeed: async (req, res) => {
     try {
       //since we have a session, each request contains the logged in user's info: req.user
@@ -33,13 +47,13 @@ module.exports = {
     }
   },
 
-  getPost: async (req, res) => {
+  getRecipe: async (req, res) => {
     try {
       //id parameter comes from the post routes
       //router.get("/:id", ensureAuth, postsController.getPost); 
       const recipes = await Recipe.findById(req.params.id);
       const comments = await Comment.find({ post: req.params.id }).sort({ createdAt: "desc" }).lean();
-      res.render("post.ejs", { recipes, user: req.user, comments });
+      res.render("recipes.ejs", { recipes, user: req.user, comments });
     } catch (err) {
       console.log(err);
       res.status(500).send("Server Error");
@@ -70,7 +84,21 @@ module.exports = {
       res.status(500).send("Server Error");
     }
   },
-  likePost: async (req, res) => {
+  favoriteRecipe: async (req, res) => {
+    try {
+      // we are consolidating data from many different sources (cloudinary, mongo, form, passport) and uploading it tour database. 
+      await Favorite.create({
+        user: req.user.id,
+        recipe: req.params.id,
+      });
+      console.log("Recipe has been favorited!");
+      res.redirect(`/recipe/${req.params.id}`);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error");
+    }
+  },
+  likeRecipe: async (req, res) => {
     try {
       await Recipe.findByIdAndUpdate(
         req.params.id,
@@ -83,7 +111,7 @@ module.exports = {
       res.status(500).send("Server Error");
     }
   },
-  deletePost: async (req, res) => {
+  deleteRecipe: async (req, res) => {
     try {
       // Find post by id
       const recipe = await Recipe.findById(req.params.id);

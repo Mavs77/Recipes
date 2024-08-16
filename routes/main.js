@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router(); 
 const authController = require('../controllers/auth');  
 const homeController = require('../controllers/home'); 
-const postsController = require('../controllers/recipes'); 
+const recipesController = require('../controllers/recipes'); 
 const { ensureAuth, ensureGuest } = require('../middleware/auth'); 
 
 
 //Main Routes 
 router.get('/', homeController.getIndex); 
-router.get('/profile', ensureAuth, postsController.getProfile);
+router.get('/profile', ensureAuth, recipesController.getProfile);
+router.get("/favorites", ensureAuth, recipesController.getFavorites)
 
-router.get('/feed', ensureAuth, postsController.getFeed); //specific to this social media app. Can Yeeeet with other apps. 
+
+router.get('/feed', ensureAuth, recipesController.getFeed); //specific to this social media app. Can Yeeeet with other apps. 
 
 //Routes for user login/signup
 router.get('/login', authController.getLogin); 

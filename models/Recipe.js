@@ -10,7 +10,7 @@ const RecipeSchema = new mongoose.Schema({
     require: true,
   },
   cloudinaryId: {
-    type: String,
+    type: String, 
     require: true,
   },
   ingredients: {
