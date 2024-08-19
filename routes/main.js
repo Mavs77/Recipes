@@ -9,7 +9,8 @@ const { ensureAuth, ensureGuest } = require('../middleware/auth');
 //Main Routes 
 router.get('/', homeController.getIndex); 
 router.get('/profile', ensureAuth, recipesController.getProfile);
-router.get("/favorites", ensureAuth, recipesController.getFavorites)
+router.get("/favorites", ensureAuth, recipesController.getFavorites); 
+router.get('/landing', homeController.getLanding);
 
 
 router.get('/feed', ensureAuth, recipesController.getFeed); //specific to this social media app. Can Yeeeet with other apps. 
